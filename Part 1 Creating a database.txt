@@ -1,0 +1,181 @@
+Part 1 Creating a database
+----------------------------------------
+Question 1, 2 and 3
+------------------------------
+- Create a database called “Umuzi”.
+- Create the following tables in the Umuzi database:
+	+Customers
+	+Employees
+	+Orders
+	+Payments
+	+Products
+- Create a primary key for each table with auto-increment (make sure you correctly specify the data types, e.g. the ID field should be int).
+ 
+Answer
+-------------
+
+CREATE TABLE Customers (
+    CustomerID SERIAL PRIMARY KEY,
+    FirstName varchar(50),
+    LastName varchar(50),
+    Gender varchar,
+    Address varchar(200),
+    Phone varchar(15),
+    Email varchar(100),
+    City varchar(20),
+    Country varchar(50)
+);
+
+CREATE TABLE Employees (
+    EmployeeID SERIAL PRIMARY KEY,
+    FirstName varchar(50),
+    LastName varchar(50),
+    Email varchar(100),
+    JobTitle varchar(20)
+);
+
+CREATE TABLE Products (
+    ProductID SERIAL PRIMARY KEY,
+    ProductName varchar(100),
+    Description varchar(300),
+    BuyPrice numeric(9, 2)
+);
+
+CREATE TABLE Payments (
+    CustomerId int,
+    PaymentID SERIAL PRIMARY KEY,
+    PaymentDate date,
+    Amount numeric(9, 2)
+);
+
+CREATE TABLE Orders (
+    OrderId SERIAL PRIMARY KEY,
+    ProductID int,
+    PaymentID int,
+    FulfilledByEmployeeID int,
+    DateRequired date,
+    DateShipped date,
+    Status varchar(20)
+);
+
+Question 4
+-----------------
+- Create foreign keys so that every ID in the order table references an existing ID in the tables referenced (e.g., ProductID, EmployeeID, etc).
+
+Answer
+------------
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_ProductOrder
+FOREIGN KEY (ProductID) REFERENCES Products(ProductID);
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_PaymentOrder
+FOREIGN KEY (PaymentID) REFERENCES Payments(PaymentID);
+
+ALTER TABLE Orders
+ADD CONSTRAINT FK_EmployeeOrder
+FOREIGN KEY (FulfilledByEmployeeID) REFERENCES Employees(EmployeeID);
+
+ALTER TABLE Payments
+ADD CONSTRAINT FK_CustomerPayment
+FOREIGN KEY (CustomerId) REFERENCES Customers(CustomerId);
+
+Question 5
+-----------------
+- INSERT the records in the tables below into the table you created in step 2.
+
+Answer
+------------
+
+INSERT INTO Customers (FirstName, LastName, Gender, Address, Phone, Email, City, Country)
+VALUES ('John', 'Hibert', 'Male', '284 chaucer st', '084789657', 'john@gmail.com', 'Johannesburg', 'South Africa');
+
+INSERT INTO Customers (FirstName, LastName, Gender, Address, Phone, Email, City, Country)
+VALUES ('Thando', 'Sithole', 'Female', '240 Sect 1', '0794445584', 'thando@gmail.com', 'Cape Town', 'South Africa');
+
+INSERT INTO Customers (FirstName, LastName, Gender, Address, Phone, Email, City, Country)
+VALUES ('Leon', 'Glen', 'Male', '81 Everton Rd,Gillits', '0820832830', 'Leon@gmail.com', 'Durban', 'South Africa');
+
+INSERT INTO Customers (FirstName, LastName, Gender, Address, Phone, Email, City, Country)
+VALUES ('Charl', 'Muller', 'Male', '290A Dorset Ecke', '+44856872553', 'Charl.muller@yahoo.com', 'Berlin', 'Germany');
+
+INSERT INTO Customers (FirstName, LastName, Gender, Address, Phone, Email, City, Country)
+VALUES ('Julia', 'Stein', 'Female', '2 Wernerring', '+448672445058', 'Js234@yahoo.com', 'Frankfurt', 'Germany');
+
+INSERT INTO Employees (FirstName, LastName, Email, JobTitle)
+VALUES ('Kani', 'Matthew', 'mat@gmail.com', 'Manager');
+
+INSERT INTO Employees (FirstName, LastName, Email, JobTitle)
+VALUES ('Lesly', 'Cronje', 'LesC@gmail.com', 'Clerk');
+
+INSERT INTO Employees (FirstName, LastName, Email, JobTitle)
+VALUES ('Gideon', 'Maduku', 'm@gmail.com', 'Accountant');
+
+INSERT INTO Products (ProductName, Description, BuyPrice)
+VALUES ('Harley Davidson Chopper', 'This replica features working kickstand, front suspension, gear-shift lever', '150.75');
+
+INSERT INTO Products (ProductName, Description, BuyPrice)
+VALUES ('Classic Car', 'Turnable front wheels, steering function', '550.75');
+
+INSERT INTO Products (ProductName, Description, BuyPrice)
+VALUES ('Sports car', 'Turnable front wheels, steering function', '700.60');
+
+INSERT INTO Payments (CustomerId, PaymentDate, Amount)
+VALUES ('1', '01-09-2018', '150.75');
+
+INSERT INTO Payments (CustomerId, PaymentDate, Amount)
+VALUES ('5', '03-09-2018', '150.75');
+
+INSERT INTO Payments (CustomerId, PaymentDate, Amount)
+VALUES ('4', '03-09-2018', '700.60');
+
+INSERT INTO Orders (ProductID, PaymentID, FulfilledByEmployeeID, DateRequired, Status)
+VALUES ('1', '1', '2', '05-09-2018', 'Not shipped');
+
+INSERT INTO Orders (ProductID, PaymentID, FulfilledByEmployeeID, DateRequired, DateShipped, Status)
+VALUES ('1', '2', '2', '04-09-2018', '03-09-2018', 'Shipped');
+
+INSERT INTO Orders (ProductID, PaymentID, FulfilledByEmployeeID, DateRequired, Status)
+VALUES ('3', '3', '3', '06-09-2018', 'Not shipped');
+
+Question 6
+------------------
+- Document what information is stored in your database. Be sure to say what information is kept in what table, and which keys link the records between tables.
+
+Answer
+-------------
++Customers
+	-CustomerID 
+	-FirstName  
+	-LastName 
+	-Gender
+	-Address
+	-Phone
+	-Email 
+	-City
+	-Country
++Employees
+	-EmployeeID
+	-FirstName
+	-LastName
+	-Email
+	-JobTitle
++Products
+	-ProductId
+	-ProductName
+	-Description
+	-BuyPrice
++Payments
+	-CustomerId
+	-PaymentID
+	-PaymentDate
+	-Amount
++Orders
+	-OrderId
+	-ProductID
+	-PaymentID
+	-FulfilledByEmployeeID 
+	-DateRequired
+	-DateShipped
+	-Status
